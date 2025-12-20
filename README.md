@@ -1,3 +1,3 @@
 ## Portfolio Made with React.js
 
-visit [site](shahzaibahmad-portfolio.vercel.app/)
+visit the site [here](shahzaibahmad.vercel.app/)
