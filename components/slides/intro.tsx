@@ -1,6 +1,7 @@
 // components/slides/intro.tsx
 "use client";
 
+import { useState, useEffect } from "react";
 import ScrollIndicator from "@/components/scroll-indicator";
 
 export default function IntroSlide({ 
@@ -10,6 +11,28 @@ export default function IntroSlide({
   onNext: () => void;
   showScrollIndicator?: boolean;
 }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const fullText = "Hi, I'm Shahzaib";
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+
+  useEffect(() => {
+    let currentIndex = 0;
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setDisplayedText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        setIsTypingComplete(true);
+        clearInterval(typingInterval);
+        // Show subtitle after typing completes
+        setTimeout(() => setShowSubtitle(true), 200);
+      }
+    }, 80);
+
+    return () => clearInterval(typingInterval);
+  }, []);
+
   return (
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
       <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 py-12 sm:px-10">
@@ -28,13 +51,28 @@ export default function IntroSlide({
         <div className="flex-1 flex flex-col justify-center pr-12 -ml-5">
           <div className="space-y-2">
             <h1 className="mt-10 text-6xl sm:text-7xl font-bold tracking-tight text-zinc-50">
-              Hi, I'm{" "}
-              <span className="underline decoration-zinc-500">
-                Shahzaib
-              </span>
+              {displayedText.split("Shahzaib").map((part, index) => (
+                <span key={index}>
+                  {part}
+                  {index === 0 && displayedText.includes("Shahzaib") && (
+                    <span className="underline decoration-zinc-500">
+                      {displayedText.includes("Shahzaib") ? "Shahzaib" : ""}
+                    </span>
+                  )}
+                </span>
+              ))}
+              {!isTypingComplete && (
+                <span className="animate-pulse">|</span>
+              )}
             </h1>
 
-            <p className="text-lg sm:text-md text-zinc-500">
+            <p 
+              className={`text-lg sm:text-md text-zinc-500 transition-all duration-700 ${
+                showSubtitle 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 -translate-y-4'
+              }`}
+            >
               Software Engineer
             </p>
 
@@ -61,7 +99,7 @@ export default function IntroSlide({
               >
                 Scroll
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
             </div>
