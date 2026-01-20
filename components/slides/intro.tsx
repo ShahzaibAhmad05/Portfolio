@@ -11,7 +11,7 @@ export default function IntroSlide({
   showScrollIndicator?: boolean;
 }) {
   return (
-    <section className="relative h-full w-full flex-none snap-start">
+    <section className="relative h-full w-full flex-none snap-start overflow-hidden">
       <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center px-6 sm:px-10">
         <div className="max-w-2xl">
           <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl text-zinc-50">
@@ -35,21 +35,20 @@ export default function IntroSlide({
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <button
-              type="button"
-              onClick={onNext}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-zinc-50 px-6 text-sm font-medium tracking-wide text-zinc-950 transition hover:bg-zinc-200"
-            >
-              Next →
-            </button>
-
             <a
               href="#"
               className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-700 px-6 text-sm font-medium tracking-wide text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
               onClick={(e) => e.preventDefault()}
             >
-              (Optional) Secondary action
+              I'm here to stalk
             </a>
+            <button
+              type="button"
+              onClick={onNext}
+              className="inline-flex h-12 items-center justify-center rounded-full bg-zinc-50 px-6 text-sm font-medium tracking-wide text-zinc-950 transition hover:bg-zinc-200"
+            >
+              Scroll →
+            </button>
           </div>
         </div>
       </div>

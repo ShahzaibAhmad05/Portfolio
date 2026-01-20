@@ -14,17 +14,17 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    name: "NextSearch",
-    description: "An AI-powered search engine built with C++",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
-    tech: ["C++", "Next.js", "TypeScript", "Tailwind"],
-    href: "#",
-  },
-  {
     name: "IRis",
     description: "A Digital Circuit Simulator AI-powered desktop app built with C#",
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
     tech: ["C#", "Avalonia UI", "Python"],
+    href: "#",
+  },
+  {
+    name: "NextSearch",
+    description: "An AI-powered search engine built with C++",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
+    tech: ["C++", "Next.js", "TypeScript", "Tailwind"],
     href: "#",
   },
 ];
@@ -59,15 +59,32 @@ export default function ProjectsSlide() {
           {PROJECTS.map((project, index) => (
             <article
               key={`${project.name}-${index}`}
-              className="relative shrink-0 w-96 cursor-pointer -ml-48 first:ml-0"
+              className="relative shrink-0 w-96 cursor-pointer -ml-72 first:ml-0"
               style={{
                 transformStyle: "preserve-3d",
+                zIndex: 0,
               }}
               onClick={() => setSelectedProject(project)}
+              onMouseEnter={(e) => {
+                const target = e.currentTarget as HTMLElement;
+                const card = target.querySelector('.card-inner') as HTMLElement;
+                if (card) {
+                  card.style.transform = 'rotateY(0deg) rotateX(0deg) translateY(-1rem)';
+                }
+                target.style.zIndex = '10';
+              }}
+              onMouseLeave={(e) => {
+                const target = e.currentTarget as HTMLElement;
+                const card = target.querySelector('.card-inner') as HTMLElement;
+                if (card) {
+                  card.style.transform = 'rotateY(-15deg) rotateX(5deg) translateY(0)';
+                }
+                target.style.zIndex = '0';
+              }}
             >
               {/* Glassy card without bevel */}
               <div 
-                className="group relative transition-all duration-700 hover:rotate-0 hover:-translate-y-4 hover:z-10" 
+                className="card-inner group relative transition-all duration-700" 
                 style={{ 
                   transformStyle: "preserve-3d",
                   transform: "rotateY(-15deg) rotateX(5deg)",
@@ -75,29 +92,32 @@ export default function ProjectsSlide() {
               >
                 {/* Main glassy surface */}
                 <div
-                  className="relative rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/60 p-8 shadow-2xl"
+                  className="relative rounded-2xl bg-zinc-800/50 backdrop-blur-xl border border-zinc-700/60 p-8 shadow-2xl"
                   style={{
-                    boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset",
+                    boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
                   }}
                 >
                   {/* Content on the glass card */}
                   <div
-                    className="relative h-80 flex flex-col justify-center items-center text-center"
+                    className="relative flex flex-col justify-between items-center text-center"
+                    style={{ height: '320px' }}
                   >
-                    <h3 className="text-2xl font-bold text-zinc-50 mb-4">
-                      {project.name}
-                    </h3>
-                    <p className="text-sm text-zinc-300 mb-6 px-4">
-                      {project.description}
-                    </p>
+                    <div className="flex-1 flex flex-col justify-center">
+                      <h3 className="text-2xl font-bold text-zinc-50 mb-4">
+                        {project.name}
+                      </h3>
+                      <p className="text-sm text-zinc-300 mb-6 px-4 line-clamp-3">
+                        {project.description}
+                      </p>
+                    </div>
                     
-                    <div className="flex flex-wrap gap-2 justify-center">
+                    <div className="flex flex-wrap gap-2 justify-center mb-4">
                       {project.tech.map((tech) => (
                         <Tag key={tech}>{tech}</Tag>
                       ))}
                     </div>
 
-                    <div className="mt-6 text-xs uppercase tracking-wider text-zinc-500">
+                    <div className="text-xs uppercase tracking-wider text-zinc-500 pb-2">
                       Click to view preview
                     </div>
                   </div>

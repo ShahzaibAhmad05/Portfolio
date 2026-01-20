@@ -46,9 +46,9 @@ export default function CertificatesSlide() {
             {CERTS.map((c) => (
               <article
                 key={`${c.issuer}-${c.title}`}
-                className="rounded-3xl border border-zinc-800/60 bg-zinc-900/40 p-6 shadow-lg backdrop-blur-sm"
+                className="rounded-3xl border border-zinc-700/60 bg-zinc-800/50 p-6 shadow-lg backdrop-blur-sm"
                 style={{
-                  boxShadow: "0 4px 20px -4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset"
+                  boxShadow: "0 4px 20px -4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08) inset"
                 }}
               >
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
