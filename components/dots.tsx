@@ -4,11 +4,11 @@
 import type { Slide } from "@/app/page";
 
 export default function SlideDots({
-  slides,
+  slides = [],
   activeIndex,
   onDotClick,
 }: {
-  slides: Slide[];
+  slides?: Slide[];
   activeIndex: number;
   onDotClick: (index: number) => void;
 }) {

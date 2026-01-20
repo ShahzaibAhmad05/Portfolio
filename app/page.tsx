@@ -5,7 +5,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import SlideDots from "@/components/dots";
 import SlideScroller from "@/components/scroller";
 import IntroSlide from "@/components/slides/intro";
-import ExperienceSlide from "@/components/slides/experience";
 import ProjectsSlide from "@/components/slides/projects";
 import CertificatesSlide from "@/components/slides/certificates";
 
@@ -80,20 +79,19 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
-      <SlideScroller scrollerRef={scrollerRef}>
-        <IntroSlide onNext={() => scrollToIndex(activeIndex + 1)} />
-
-        <ExperienceSlide />
-        <ProjectsSlide />
-        <CertificatesSlide />
-      </SlideScroller>
-
-      {/* Bottom dots */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-6 z-10 flex items-center justify-center">
+      {/* Top dots */}
+      <div className="pointer-events-none fixed inset-x-0 top-6 z-10 flex items-center justify-center">
         <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-zinc-200 bg-white/80 px-4 py-2 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/60">
           {dots}
         </div>
       </div>
+
+      <SlideScroller scrollerRef={scrollerRef}>
+        <IntroSlide onNext={() => scrollToIndex(activeIndex + 1)} />
+
+        <ProjectsSlide />
+        <CertificatesSlide />
+      </SlideScroller>
     </div>
   );
 }
