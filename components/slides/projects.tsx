@@ -31,7 +31,7 @@ const PROJECTS: Project[] = [
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-2.5 py-0.5 text-xs text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+    <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs font-medium text-zinc-300">
       {children}
     </span>
   );
@@ -44,10 +44,10 @@ export default function ProjectsSlide() {
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
       <div className="mx-auto flex h-full w-full max-w-7xl flex-col justify-center px-6 py-12 sm:px-10">
         <div className="mb-8">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl text-zinc-50">
             Projects
           </h2>
-          <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-zinc-400">
             Showcasing my work across different technologies
           </p>
         </div>
@@ -75,19 +75,19 @@ export default function ProjectsSlide() {
               >
                 {/* Main glassy surface */}
                 <div
-                  className="relative rounded-2xl bg-white/20 dark:bg-zinc-900/20 backdrop-blur-xl border border-white/30 dark:border-zinc-700/30 p-8 shadow-2xl"
+                  className="relative rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/60 p-8 shadow-2xl"
                   style={{
-                    boxShadow: "0 30px 60px -15px rgba(100, 100, 100, 0.4)",
+                    boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset",
                   }}
                 >
                   {/* Content on the glass card */}
                   <div
                     className="relative h-80 flex flex-col justify-center items-center text-center"
                   >
-                    <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-4">
+                    <h3 className="text-2xl font-bold text-zinc-50 mb-4">
                       {project.name}
                     </h3>
-                    <p className="text-sm text-zinc-700 dark:text-zinc-300 mb-6 px-4">
+                    <p className="text-sm text-zinc-300 mb-6 px-4">
                       {project.description}
                     </p>
                     
@@ -97,7 +97,7 @@ export default function ProjectsSlide() {
                       ))}
                     </div>
 
-                    <div className="mt-6 text-xs text-zinc-500 dark:text-zinc-400">
+                    <div className="mt-6 text-xs uppercase tracking-wider text-zinc-500">
                       Click to view preview
                     </div>
                   </div>
@@ -111,7 +111,7 @@ export default function ProjectsSlide() {
       {/* Image Preview Modal */}
       {selectedProject && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-800/80 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md"
           onClick={() => setSelectedProject(null)}
         >
           <div 

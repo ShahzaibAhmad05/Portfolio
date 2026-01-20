@@ -14,23 +14,22 @@ export default function IntroSlide({
     <section className="relative h-full w-full flex-none snap-start">
       <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center px-6 sm:px-10">
         <div className="max-w-2xl">
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Hi, I’m{" "}
-            <span className="underline decoration-zinc-300 dark:decoration-zinc-700">
+          <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl text-zinc-50">
+            Hi, I'm{" "}
+            <span className="underline decoration-zinc-500">
               Shahzaib
             </span>
           </h1>
 
-          <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm font-medium text-zinc-500">
             Software Engineer
           </p>
 
-          {/* FIX: text-zinc-300 is very light on light-mode background; use zinc-600 in light mode */}
-          <p className="mt-5 text-lg leading-8 text-zinc-600 dark:text-zinc-300">
-            Welcome to my portfolio site!
+          <p className="mt-5 text-lg leading-8 text-zinc-300">
+            Welcome to my portfolio!
           </p>
 
-          <p className="text-md leading-8 text-zinc-500 dark:text-zinc-400">
+          <p className="text-md leading-8 text-zinc-400">
             Well, this is for my intro. The rest you have to scroll yourself to
             see.
           </p>
@@ -39,14 +38,14 @@ export default function IntroSlide({
             <button
               type="button"
               onClick={onNext}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-zinc-900 px-6 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-zinc-50 px-6 text-sm font-medium tracking-wide text-zinc-950 transition hover:bg-zinc-200"
             >
               Next →
             </button>
 
             <a
               href="#"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-200 px-6 text-sm font-medium text-zinc-900 transition hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-900"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-700 px-6 text-sm font-medium tracking-wide text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
               onClick={(e) => e.preventDefault()}
             >
               (Optional) Secondary action
