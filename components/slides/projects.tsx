@@ -1,7 +1,7 @@
 // components/slides/projects.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 type Project = {
@@ -43,13 +43,25 @@ function Tag({ children }: { children: React.ReactNode }) {
 export default function ProjectsSlide() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [pinnedIndex, setPinnedIndex] = useState<number | null>(null);
+  const [showTitle, setShowTitle] = useState(false);
+  const [showCards, setShowCards] = useState(false);
+
+  useEffect(() => {
+    // Staggered animations on mount
+    setTimeout(() => setShowTitle(true), 100);
+    setTimeout(() => setShowCards(true), 400);
+  }, []);
 
   return (
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
       <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 py-12 sm:px-10">
         {/* Left Side - Title Section */}
         <div className="flex-1 pr-12 flex flex-col justify-center">
-          <div className="space-y-4 ml-5">
+          <div className={`space-y-4 ml-5 transition-all duration-1000 ${
+            showTitle 
+              ? 'opacity-100 translate-x-0' 
+              : 'opacity-0 -translate-x-10'
+          }`}>
             <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-50">
               Projects
             </h2>
@@ -69,13 +81,21 @@ export default function ProjectsSlide() {
             const shouldShowImage = isActive && hoveredIndex === index;
             const isHovered = hoveredIndex === index;
             
+            // Calculate rotation angle for playing card effect
+            const baseRotation = (index - (PROJECTS.length - 1) / 2) * 8; // Spread cards by 8 degrees
+            
             return (
               <article
                 key={`${project.name}-${index}`}
-                className="relative shrink-0 w-96 cursor-pointer -ml-72 first:ml-0"
+                className={`relative shrink-0 w-96 cursor-pointer -ml-72 first:ml-0 transition-all duration-1000 ${
+                  showCards 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-10'
+                }`}
                 style={{
                   transformStyle: "preserve-3d",
                   zIndex: isActive ? 20 : isHovered ? 15 : 0,
+                  transitionDelay: showCards ? `${index * 150}ms` : '0ms',
                 }}
                 onClick={() => {
                   setPinnedIndex(pinnedIndex === index ? null : index);
@@ -99,7 +119,7 @@ export default function ProjectsSlide() {
                       ? "rotateY(0deg) rotateX(0deg) translateY(-1.5rem)"
                       : isHovered
                         ? "rotateY(0deg) rotateX(0deg) translateY(-0.5rem)"
-                        : "rotateY(-15deg) rotateX(5deg)",
+                        : `rotateY(-15deg) rotateX(5deg) rotateZ(${baseRotation}deg)`,
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
                   }}
