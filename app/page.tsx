@@ -87,7 +87,10 @@ export default function Home() {
       </div>
 
       <SlideScroller scrollerRef={scrollerRef}>
-        <IntroSlide onNext={() => scrollToIndex(activeIndex + 1)} />
+        <IntroSlide 
+          onNext={() => scrollToIndex(activeIndex + 1)}
+          showScrollIndicator={activeIndex === 0}
+        />
 
         <ProjectsSlide />
         <CertificatesSlide />

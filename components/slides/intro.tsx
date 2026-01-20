@@ -1,7 +1,15 @@
 // components/slides/intro.tsx
 "use client";
 
-export default function IntroSlide({ onNext }: { onNext: () => void }) {
+import ScrollIndicator from "@/components/scroll-indicator";
+
+export default function IntroSlide({ 
+  onNext, 
+  showScrollIndicator = false 
+}: { 
+  onNext: () => void;
+  showScrollIndicator?: boolean;
+}) {
   return (
     <section className="relative h-full w-full flex-none snap-start">
       <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center px-6 sm:px-10">
@@ -46,6 +54,8 @@ export default function IntroSlide({ onNext }: { onNext: () => void }) {
           </div>
         </div>
       </div>
+      
+      {showScrollIndicator && <ScrollIndicator />}
     </section>
   );
 }

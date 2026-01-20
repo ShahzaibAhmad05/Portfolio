@@ -118,44 +118,72 @@ export default function ProjectsSlide() {
 
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex -space-x-32 overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          style={{ perspective: "1500px" }}
         >
           {duplicatedProjects.map((project, index) => (
             <article
               key={`${project.name}-${index}`}
-              className="group relative shrink-0 w-87.5 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-lg transition hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900"
+              className="group relative shrink-0 w-[400px] transition-all duration-700 hover:z-10 hover:scale-110 hover:rotate-0 hover:-translate-y-4"
+              style={{
+                transformStyle: "preserve-3d",
+                transform: "rotateY(-15deg) rotateX(5deg)",
+              }}
             >
-              <div className="relative aspect-4/3 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  fill
-                  className="object-cover transition duration-300 group-hover:scale-105"
-                  unoptimized
+              {/* 3D Plate Base - creates thickness */}
+              <div className="relative" style={{ transformStyle: "preserve-3d" }}>
+                {/* Plate depth/thickness layers */}
+                <div
+                  className="absolute inset-0 rounded-2xl bg-zinc-300 dark:bg-zinc-700 blur-sm"
+                  style={{ transform: "translateZ(-10px)" }}
                 />
+                <div
+                  className="absolute inset-0 rounded-2xl bg-zinc-200 dark:bg-zinc-800"
+                  style={{ transform: "translateZ(-5px)" }}
+                />
+                
+                {/* Main plate surface */}
+                <div
+                  className="relative rounded-2xl bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-100 dark:from-zinc-800 dark:via-zinc-850 dark:to-zinc-900 p-3 shadow-2xl"
+                  style={{
+                    transform: "translateZ(0px)",
+                    boxShadow:
+                      "0 30px 60px -15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
+                  }}
+                >
+                  {/* Image elevated on plate */}
+                  <div
+                    className="relative aspect-[4/3] overflow-hidden rounded-xl bg-zinc-900 dark:bg-zinc-950"
+                    style={{
+                      transform: "translateZ(25px)",
+                      boxShadow: "0 15px 35px -10px rgba(0, 0, 0, 0.5)",
+                    }}
+                  >
+                    <Image
+                      src={project.image}
+                      alt={project.name}
+                      fill
+                      className="object-cover transition duration-700 group-hover:scale-110"
+                      unoptimized
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="p-5">
-                <h3 className="text-lg font-semibold">{project.name}</h3>
-                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              {/* Description below the plate */}
+              <div className="mt-8 px-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                  {project.name}
+                </h3>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2">
                   {project.description}
                 </p>
 
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {project.tech.map((tech) => (
                     <Tag key={tech}>{tech}</Tag>
                   ))}
                 </div>
-
-                {project.href && (
-                  <a
-                    href={project.href}
-                    className="mt-4 inline-flex items-center text-sm font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition hover:decoration-zinc-900 dark:text-zinc-50 dark:decoration-zinc-700 dark:hover:decoration-zinc-200"
-                    onClick={(e) => project.href === "#" && e.preventDefault()}
-                  >
-                    View project →
-                  </a>
-                )}
               </div>
             </article>
           ))}
