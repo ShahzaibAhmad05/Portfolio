@@ -12,11 +12,18 @@ export default function IntroSlide({
   showScrollIndicator?: boolean;
 }) {
   const [displayedText, setDisplayedText] = useState("");
-  const fullText = "Hi there";
+  const fullText = "Hello Visitor!";
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [showScroll, setShowScroll] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
+    // Profile picture animation
+    setTimeout(() => setShowProfile(true), 100);
+    
     let currentIndex = 0;
     const typingInterval = setInterval(() => {
       if (currentIndex <= fullText.length) {
@@ -25,8 +32,11 @@ export default function IntroSlide({
       } else {
         setIsTypingComplete(true);
         clearInterval(typingInterval);
-        // Show subtitle after typing completes
+        // Staggered animations after typing completes
         setTimeout(() => setShowSubtitle(true), 200);
+        setTimeout(() => setShowWelcome(true), 500);
+        setTimeout(() => setShowScroll(true), 700);
+        setTimeout(() => setShowButtons(true), 900);
       }
     }, 80);
 
@@ -38,7 +48,11 @@ export default function IntroSlide({
       <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 py-12 sm:px-10">
         {/* Left Side - Profile Picture */}
         <div className="flex-1 flex items-center justify-center">
-          <div className="h-80 w-80 sm:h-96 sm:w-96 rounded-full bg-zinc-800/50 border-2 border-zinc-700/60 overflow-hidden shadow-2xl">
+          <div className={`h-80 w-80 sm:h-96 sm:w-96 rounded-full bg-zinc-800/50 border-2 border-zinc-700/60 overflow-hidden shadow-2xl transition-all duration-1000 ${
+            showProfile 
+              ? 'opacity-100 translate-x-0' 
+              : 'opacity-0 -translate-x-20'
+          }`}>
             <img 
               src="/profile-placeholder.jpg" 
               alt="Profile" 
@@ -48,7 +62,7 @@ export default function IntroSlide({
         </div>
 
         {/* Right Side - Text Content */}
-        <div className="flex-1 flex flex-col justify-center pr-12 -ml-5 mr-10">
+        <div className="flex-1 flex flex-col justify-center pr-12 -ml-5">
           <div className="space-y-2">
             <h1 className="mt-10 text-6xl sm:text-7xl font-bold tracking-tight text-zinc-50">
               {displayedText.split("Shahzaib").map((part, index) => (
@@ -76,15 +90,27 @@ export default function IntroSlide({
               I'm a Software Engineer
             </p>
 
-            <p className="mt-6 text-lg leading-8 text-zinc-300">
-              Welcome to my portfolio!
+            <p className={`mt-6 text-lg leading-8 text-zinc-300 transition-all duration-700 ${
+              showWelcome 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 -translate-y-4'
+            }`}>
+              Welcome to my portfolio.
             </p>
 
-            <p className="-mt-3 text-md leading-8 text-zinc-400">
-              Well, you kinda have to scroll yourself to look around
+            <p className={`-mt-3 text-md leading-8 text-zinc-400 transition-all duration-700 ${
+              showScroll 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 -translate-y-4'
+            }`}>
+              Scroll this page horizontally to look around
             </p>
 
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <div className={`mt-5 flex flex-col gap-3 sm:flex-row transition-all duration-700 ${
+              showButtons 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 -translate-y-4'
+            }`}>
               <a
                 href="#"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-700 px-6 text-sm font-medium tracking-wide text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
