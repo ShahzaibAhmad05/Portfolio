@@ -12,7 +12,7 @@ export default function IntroSlide({
   showScrollIndicator?: boolean;
 }) {
   const [displayedText, setDisplayedText] = useState("");
-  const fullText = "Hi, I'm Shahzaib";
+  const fullText = "Hi there";
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
 
@@ -48,7 +48,7 @@ export default function IntroSlide({
         </div>
 
         {/* Right Side - Text Content */}
-        <div className="flex-1 flex flex-col justify-center pr-12 -ml-5 mr-5">
+        <div className="flex-1 flex flex-col justify-center pr-12 -ml-5 mr-10">
           <div className="space-y-2">
             <h1 className="mt-10 text-6xl sm:text-7xl font-bold tracking-tight text-zinc-50">
               {displayedText.split("Shahzaib").map((part, index) => (
@@ -73,7 +73,7 @@ export default function IntroSlide({
                   : 'opacity-0 -translate-y-4'
               }`}
             >
-              Software Engineer
+              I'm a Software Engineer
             </p>
 
             <p className="mt-6 text-lg leading-8 text-zinc-300">
