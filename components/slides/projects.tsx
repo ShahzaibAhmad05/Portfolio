@@ -43,18 +43,25 @@ export default function ProjectsSlide() {
 
   return (
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
-      <div className="mx-auto flex h-full w-full max-w-7xl flex-col justify-center px-6 py-12 sm:px-10">
-        <div className="mb-8">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl text-zinc-50">
-            Projects
-          </h2>
-          <p className="mt-2 text-zinc-400">
-            Showcasing my work across different technologies
-          </p>
+      <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 py-12 sm:px-10">
+        {/* Left Side - Title Section */}
+        <div className="flex-1 pr-12 flex flex-col justify-center">
+          <div className="space-y-4">
+            <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-50">
+              Projects
+            </h2>
+            <p className="text-lg sm:text-xl text-zinc-400 max-w-md">
+              Showcasing my work across modern languages and frameworks.
+            </p>
+            <div className="pt-4 space-y-2 text-zinc-500">
+              <p className="text-sm">Exploring something new everyday</p>
+            </div>
+          </div>
         </div>
 
+        {/* Right Side - Project Cards */}
         <div
-          className="flex gap-6 justify-center [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex-1 flex gap-6 mr-10 justify-end [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           style={{ perspective: "1500px" }}
         >
           {PROJECTS.map((project, index) => {
