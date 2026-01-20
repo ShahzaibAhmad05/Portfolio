@@ -28,6 +28,42 @@ export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const slideCount = SLIDES.length;
+  const scrollAnimationRef = useRef<number | null>(null);
+
+  const smoothScrollTo = (element: HTMLElement, target: number, duration: number) => {
+    const start = element.scrollLeft;
+    const distance = target - start;
+    const startTime = performance.now();
+
+    // Temporarily disable snap scrolling during animation
+    element.style.scrollSnapType = 'none';
+
+    const easeOutExpo = (t: number): number => {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    };
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutExpo(progress);
+      
+      element.scrollLeft = start + distance * easedProgress;
+
+      if (progress < 1) {
+        scrollAnimationRef.current = requestAnimationFrame(animate);
+      } else {
+        scrollAnimationRef.current = null;
+        // Re-enable snap scrolling after animation completes
+        element.style.scrollSnapType = '';
+      }
+    };
+
+    if (scrollAnimationRef.current !== null) {
+      cancelAnimationFrame(scrollAnimationRef.current);
+    }
+    
+    scrollAnimationRef.current = requestAnimationFrame(animate);
+  };
 
   const scrollToIndex = (index: number) => {
     const scroller = scrollerRef.current;
@@ -35,11 +71,9 @@ export default function Home() {
 
     const i = clamp(index, 0, slideCount - 1);
     const width = scroller.clientWidth || 1;
+    const targetScroll = i * width;
 
-    scroller.scrollTo({
-      left: i * width,
-      behavior: "smooth",
-    });
+    smoothScrollTo(scroller, targetScroll, 800);
   };
 
   // keep active dot in sync with scroll position and track scroll progress
@@ -62,6 +96,15 @@ export default function Home() {
     scroller.addEventListener("scroll", onScroll, { passive: true });
     return () => scroller.removeEventListener("scroll", onScroll);
   }, [slideCount]);
+
+  // Clean up scroll animation on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollAnimationRef.current !== null) {
+        cancelAnimationFrame(scrollAnimationRef.current);
+      }
+    };
+  }, []);
 
   // keyboard support
   useEffect(() => {

@@ -30,8 +30,7 @@ export default function IntroSlide({
           </p>
 
           <p className="text-md leading-8 text-zinc-400">
-            Well, this is for my intro. The rest you have to scroll yourself to
-            see.
+            Well, now you have to scroll yourself to see.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">

@@ -54,7 +54,7 @@ export default function ProjectsSlide() {
               Projects
             </h2>
             <p className="ml-2 text-lg sm:text-md text-zinc-500 max-w-md">
-              Exploring something new everyday.
+              Trying something new everyday.
             </p>
           </div>
         </div>
