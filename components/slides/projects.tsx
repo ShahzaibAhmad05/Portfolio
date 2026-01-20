@@ -14,17 +14,17 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    name: "Portfolio Slides",
-    description: "A horizontal snap-scrolling portfolio with keyboard navigation and dark mode.",
+    name: "NextSearch",
+    description: "An AI-powered search engine built with C++",
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
-    tech: ["Next.js", "TypeScript", "Tailwind"],
+    tech: ["C++", "Next.js", "TypeScript", "Tailwind"],
     href: "#",
   },
   {
     name: "IRis",
     description: "A Digital Circuit Simulator AI-powered desktop app built with C#",
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
-    tech: ["C#", "WPF", "AI"],
+    tech: ["C#", "Avalonia UI", "Python"],
     href: "#",
   },
 ];
@@ -59,7 +59,7 @@ export default function ProjectsSlide() {
           {PROJECTS.map((project, index) => (
             <article
               key={`${project.name}-${index}`}
-              className="relative shrink-0 w-96 cursor-pointer -ml-12 first:ml-0"
+              className="relative shrink-0 w-96 cursor-pointer -ml-48 first:ml-0"
               style={{
                 transformStyle: "preserve-3d",
               }}
@@ -67,7 +67,7 @@ export default function ProjectsSlide() {
             >
               {/* Glassy card without bevel */}
               <div 
-                className="group relative transition-all duration-700 hover:scale-110 hover:rotate-0 hover:-translate-y-4 hover:z-10" 
+                className="group relative transition-all duration-700 hover:rotate-0 hover:-translate-y-4 hover:z-10" 
                 style={{ 
                   transformStyle: "preserve-3d",
                   transform: "rotateY(-15deg) rotateX(5deg)",
@@ -77,12 +77,12 @@ export default function ProjectsSlide() {
                 <div
                   className="relative rounded-2xl bg-white/20 dark:bg-zinc-900/20 backdrop-blur-xl border border-white/30 dark:border-zinc-700/30 p-8 shadow-2xl"
                   style={{
-                    boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "0 30px 60px -15px rgba(100, 100, 100, 0.4)",
                   }}
                 >
                   {/* Content on the glass card */}
                   <div
-                    className="relative aspect-4/3 flex flex-col justify-center items-center text-center"
+                    className="relative h-80 flex flex-col justify-center items-center text-center"
                   >
                     <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-4">
                       {project.name}
@@ -111,7 +111,7 @@ export default function ProjectsSlide() {
       {/* Image Preview Modal */}
       {selectedProject && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-800/80 backdrop-blur-sm"
           onClick={() => setSelectedProject(null)}
         >
           <div 
