@@ -48,7 +48,7 @@ export default function IntroSlide({
         </div>
 
         {/* Right Side - Text Content */}
-        <div className="flex-1 flex flex-col justify-center pr-12 -ml-5">
+        <div className="flex-1 flex flex-col justify-center pr-12 -ml-5 mr-5">
           <div className="space-y-2">
             <h1 className="mt-10 text-6xl sm:text-7xl font-bold tracking-tight text-zinc-50">
               {displayedText.split("Shahzaib").map((part, index) => (
