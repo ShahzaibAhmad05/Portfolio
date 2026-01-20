@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import ScrollIndicator from "@/components/scroll-indicator";
+import Particles from "@/components/particles";
 
 export default function IntroSlide({ 
   onNext, 
@@ -133,6 +134,7 @@ export default function IntroSlide({
         </div>
       </div>
       
+      <Particles />
       {showScrollIndicator && <ScrollIndicator />}
     </section>
   );

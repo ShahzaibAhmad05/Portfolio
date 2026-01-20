@@ -1,6 +1,8 @@
 // components/slides/contact.tsx
 "use client";
 
+import Particles from "@/components/particles";
+
 export default function ContactSlide() {
   return (
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
@@ -60,6 +62,7 @@ export default function ContactSlide() {
           </div>
         </div>
       </div>
+      <Particles />
     </section>
   );
 }

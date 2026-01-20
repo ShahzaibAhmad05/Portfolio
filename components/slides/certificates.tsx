@@ -1,6 +1,8 @@
 // components/slides/certificates.tsx
 "use client";
 
+import Particles from "@/components/particles";
+
 type Cert = {
   title: string;
   issuer: string;
@@ -147,7 +149,7 @@ export default function CertificatesSlide() {
                     href={cert.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-9 w-fit items-center justify-center gap-1.5 rounded-full border border-zinc-700 px-4 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
+                    className="inline-flex h-9 w-fit items-center justify-center gap-1.5 rounded-full border border-zinc-700 px-4 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600 mt-3"
                   >
                     View Certificate
                     <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,6 +162,7 @@ export default function CertificatesSlide() {
           </div>
         </div>
       </div>
+      <Particles />
     </section>
   );
 }

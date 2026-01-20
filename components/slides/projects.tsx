@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Particles from "@/components/particles";
 
 type Project = {
   name: string;
@@ -207,6 +208,7 @@ export default function ProjectsSlide() {
           })}
         </div>
       </div>
+      <Particles />
     </section>
   );
 }
