@@ -38,7 +38,8 @@ function Tag({ children }: { children: React.ReactNode }) {
 }
 
 export default function ProjectsSlide() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [pinnedIndex, setPinnedIndex] = useState<number | null>(null);
 
   return (
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
@@ -56,114 +57,107 @@ export default function ProjectsSlide() {
           className="flex gap-6 justify-center [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           style={{ perspective: "1500px" }}
         >
-          {PROJECTS.map((project, index) => (
-            <article
-              key={`${project.name}-${index}`}
-              className="relative shrink-0 w-96 cursor-pointer -ml-72 first:ml-0"
-              style={{
-                transformStyle: "preserve-3d",
-                zIndex: 0,
-              }}
-              onClick={() => setSelectedProject(project)}
-              onMouseEnter={(e) => {
-                const target = e.currentTarget as HTMLElement;
-                const card = target.querySelector('.card-inner') as HTMLElement;
-                if (card) {
-                  card.style.transform = 'rotateY(0deg) rotateX(0deg) translateY(-1rem)';
-                }
-                target.style.zIndex = '10';
-              }}
-              onMouseLeave={(e) => {
-                const target = e.currentTarget as HTMLElement;
-                const card = target.querySelector('.card-inner') as HTMLElement;
-                if (card) {
-                  card.style.transform = 'rotateY(-15deg) rotateX(5deg) translateY(0)';
-                }
-                target.style.zIndex = '0';
-              }}
-            >
-              {/* Glassy card without bevel */}
-              <div 
-                className="card-inner group relative transition-all duration-700" 
-                style={{ 
+          {PROJECTS.map((project, index) => {
+            const isActive = pinnedIndex === index;
+            const shouldShowImage = isActive && hoveredIndex === index;
+            const isHovered = hoveredIndex === index;
+            
+            return (
+              <article
+                key={`${project.name}-${index}`}
+                className="relative shrink-0 w-96 cursor-pointer -ml-72 first:ml-0"
+                style={{
                   transformStyle: "preserve-3d",
-                  transform: "rotateY(-15deg) rotateX(5deg)",
+                  zIndex: isActive ? 20 : isHovered ? 15 : 0,
+                }}
+                onClick={() => {
+                  setPinnedIndex(pinnedIndex === index ? null : index);
+                }}
+                onMouseEnter={() => {
+                  setHoveredIndex(index);
+                }}
+                onMouseLeave={() => {
+                  setHoveredIndex(null);
+                  if (pinnedIndex === index) {
+                    setPinnedIndex(null);
+                  }
                 }}
               >
-                {/* Main glassy surface */}
-                <div
-                  className="relative rounded-2xl bg-zinc-800/50 backdrop-blur-xl border border-zinc-700/60 p-8 shadow-2xl"
-                  style={{
-                    boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
+                {/* Glassy card without bevel */}
+                <div 
+                  className="card-inner group relative transition-all duration-700" 
+                  style={{ 
+                    transformStyle: "preserve-3d",
+                    transform: isActive 
+                      ? "rotateY(0deg) rotateX(0deg) translateY(-1rem) scale(1.05)"
+                      : isHovered
+                        ? "rotateY(0deg) rotateX(0deg) translateY(-0.5rem)"
+                        : "rotateY(-15deg) rotateX(5deg)",
                   }}
                 >
-                  {/* Content on the glass card */}
+                  {/* Main glassy surface */}
                   <div
-                    className="relative flex flex-col justify-between items-center text-center"
-                    style={{ height: '320px' }}
+                    className="relative rounded-2xl bg-zinc-800/50 backdrop-blur-xl border border-zinc-700/60 p-8 shadow-2xl overflow-hidden transition-all duration-500"
+                    style={{
+                      boxShadow: isActive
+                        ? "0 40px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12) inset"
+                        : "0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
+                      height: shouldShowImage ? '440px' : '360px',
+                    }}
                   >
-                    <div className="flex-1 flex flex-col justify-center">
-                      <h3 className="text-2xl font-bold text-zinc-50 mb-4">
-                        {project.name}
-                      </h3>
-                      <p className="text-sm text-zinc-300 mb-6 px-4 line-clamp-3">
-                        {project.description}
-                      </p>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-2 justify-center mb-4">
-                      {project.tech.map((tech) => (
-                        <Tag key={tech}>{tech}</Tag>
-                      ))}
-                    </div>
+                    {/* Content on the glass card */}
+                    <div
+                      className="relative flex flex-col items-center text-center transition-all duration-500"
+                    >
+                      {/* Image Preview at Top */}
+                      <div 
+                        className="w-full overflow-hidden rounded-lg mb-4 transition-all duration-500"
+                        style={{
+                          height: shouldShowImage ? '160px' : '0px',
+                          opacity: shouldShowImage ? 1 : 0,
+                        }}
+                      >
+                        {shouldShowImage && (
+                          <div className="relative w-full h-full">
+                            <Image
+                              src={project.image}
+                              alt={project.name}
+                              fill
+                              className="object-cover"
+                              unoptimized
+                            />
+                          </div>
+                        )}
+                      </div>
 
-                    <div className="text-xs uppercase tracking-wider text-zinc-500 pb-2">
-                      Click to view preview
+                      <div className="flex flex-col justify-between items-center">
+                        <div className="flex-1 flex flex-col justify-center">
+                          <h3 className="text-2xl font-bold text-zinc-50 mb-4">
+                            {project.name}
+                          </h3>
+                          <p className="text-sm text-zinc-300 mb-6 px-4 line-clamp-3">
+                            {project.description}
+                          </p>
+                        </div>
+                        
+                        <div className="flex flex-wrap gap-2 justify-center mb-4">
+                          {project.tech.map((tech) => (
+                            <Tag key={tech}>{tech}</Tag>
+                          ))}
+                        </div>
+
+                        <div className="text-xs uppercase tracking-wider text-zinc-500 pb-2">
+                          Click for preview
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
-
-      {/* Image Preview Modal */}
-      {selectedProject && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md"
-          onClick={() => setSelectedProject(null)}
-        >
-          <div 
-            className="relative max-w-4xl max-h-[80vh] w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedProject(null)}
-              className="absolute -top-12 right-0 text-white hover:text-zinc-300 transition"
-            >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            
-            <div className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src={selectedProject.image}
-                alt={selectedProject.name}
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </div>
-            
-            <div className="mt-4 text-center">
-              <h3 className="text-xl font-semibold text-white">{selectedProject.name}</h3>
-              <p className="mt-2 text-sm text-zinc-300">{selectedProject.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
