@@ -5,90 +5,159 @@ type Cert = {
   title: string;
   issuer: string;
   date: string;
-  credentialId?: string;
-  href?: string;
+  credentialId: string;
+  href: string;
 };
 
 const CERTS: Cert[] = [
   {
-    title: "Meta Front-End Developer",
-    issuer: "Coursera / Meta",
-    date: "2024",
-    credentialId: "ABC-123",
-    href: "#",
+    title: "AI Engineering Professional Certificate",
+    issuer: "IBM",
+    date: "Dec 2025",
+    credentialId: "AEWCW47ISNZR",
+    href: "https://www.coursera.org/account/accomplishments/professional-cert/AEWCW47ISNZR",
   },
   {
-    title: "AWS Certified Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    date: "2023",
-    credentialId: "XYZ-789",
-  },
-  {
-    title: "Google UX Design (Optional)",
+    title: "Advanced Data Analytics Professional Certificate",
     issuer: "Google",
-    date: "2022",
+    date: "Dec 2025",
+    credentialId: "OL32KK3R0YFI",
+    href: "https://www.coursera.org/account/accomplishments/professional-cert/OL32KK3R0YFI",
+  },
+  {
+    title: "Backend Developer Professional Certificate",
+    issuer: "Meta",
+    date: "Dec 2025",
+    credentialId: "LJJY4L5DLS7U",
+    href: "https://www.coursera.org/account/accomplishments/professional-cert/LJJY4L5DLS7U",
+  },
+  {
+    title: "IT Automation with Python Professional Certificate",
+    issuer: "Google",
+    date: "Nov 2025",
+    credentialId: "WXKXVQ0QXBDV",
+    href: "https://www.coursera.org/account/accomplishments/professional-cert/WXKXVQ0QXBDV",
+  },
+  {
+    title: "C# for .NET Developers",
+    issuer: "Board Infinity",
+    date: "Oct 2025",
+    credentialId: "BTAPH50OJEW4",
+    href: "https://www.coursera.org/account/accomplishments/verify/BTAPH50OJEW4",
+  },
+  {
+    title: "Full Stack Developer Specialization",
+    issuer: "Meta",
+    date: "Oct 2025",
+    credentialId: "F885115FEH0L",
+    href: "https://www.coursera.org/account/accomplishments/specialization/F885115FEH0L",
+  },
+  {
+    title: "React Specialization",
+    issuer: "Meta",
+    date: "Sep 2025",
+    credentialId: "CUD5JDF6T9X4",
+    href: "https://www.coursera.org/account/accomplishments/specialization/CUD5JDF6T9X4",
+  },
+  {
+    title: "Deep Learning Specialization",
+    issuer: "DeepLearning.AI",
+    date: "Jul 2025",
+    credentialId: "57823KF9C8TI",
+    href: "https://www.coursera.org/account/accomplishments/specialization/57823KF9C8TI",
+  },
+  {
+    title: "Machine Learning Specialization",
+    issuer: "DeepLearning.AI",
+    date: "Jul 2025",
+    credentialId: "HXNEXKNPSKOC",
+    href: "https://www.coursera.org/account/accomplishments/specialization/HXNEXKNPSKOC",
+  },
+  {
+    title: "AI For Everyone",
+    issuer: "DeepLearning.AI",
+    date: "Aug 2025",
+    credentialId: "CTU45F2WJAZP",
+    href: "https://www.coursera.org/account/accomplishments/verify/CTU45F2WJAZP",
   },
 ];
 
 export default function CertificatesSlide() {
-  return (
-    <section className="relative h-full w-full flex-none snap-start">
-      <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center px-6 sm:px-10">
-        <div className="max-w-3xl">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl text-zinc-50">
-            Certificates
-          </h2>
-          <p className="mt-2 text-zinc-400">
-            Credentials and completed programs. (Replace with your real items.)
-          </p>
+  // Duplicate the certificates array for seamless loop
+  const duplicatedCerts = [...CERTS, ...CERTS];
 
-          <div className="mt-8 space-y-3">
-            {CERTS.map((c) => (
+  return (
+    <section className="relative h-full w-full flex-none snap-start overflow-hidden">
+      <style jsx>{`
+        @keyframes scroll-down {
+          0% {
+            transform: translateY(-50%);
+          }
+          100% {
+            transform: translateY(0%);
+          }
+        }
+        .animate-scroll {
+          animation: scroll-down 30s linear infinite;
+        }
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 py-12 sm:px-10">
+        {/* Left Side - Title Section */}
+        <div className="flex-1 pr-12 flex flex-col justify-center">
+          <div className="space-y-4 ml-5">
+            <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-50">
+              Certificates
+            </h2>
+            <p className="ml-2 text-lg sm:text-md text-zinc-500 max-w-md">
+              My professional credentials.
+            </p>
+          </div>
+        </div>
+
+        {/* Right Side - Moving Belt */}
+        <div className="flex-1 relative h-full overflow-hidden">
+          {/* Gradient overlays */}
+          <div className="absolute top-0 left-0 right-0 h-24 bg-linear-to-b from-zinc-950 to-transparent pointer-events-none z-10" />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t from-zinc-950 to-transparent pointer-events-none z-10" />
+          
+          {/* Scrolling certificates */}
+          <div className="animate-scroll flex flex-col gap-4 py-4">
+            {duplicatedCerts.map((cert, index) => (
               <article
-                key={`${c.issuer}-${c.title}`}
-                className="rounded-3xl border border-zinc-700/60 bg-zinc-800/50 p-6 shadow-lg backdrop-blur-sm"
+                key={`${cert.credentialId}-${index}`}
+                className="rounded-3xl border border-zinc-700/60 bg-zinc-800/50 p-5 shadow-lg backdrop-blur-sm transition mr-15 hover:border-zinc-600/60 hover:bg-zinc-800/70"
                 style={{
                   boxShadow: "0 4px 20px -4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08) inset"
                 }}
               >
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex flex-col gap-2">
                   <div>
-                    <h3 className="text-lg font-semibold text-zinc-50">{c.title}</h3>
-                    <p className="text-sm text-zinc-400">
-                      {c.issuer} · {c.date}
+                    <h3 className="text-base font-semibold text-zinc-50 leading-tight">
+                      {cert.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-zinc-400">
+                      {cert.issuer} · {cert.date}
                     </p>
-                    {c.credentialId ? (
-                      <p className="mt-1 text-xs text-zinc-500">
-                        Credential ID: {c.credentialId}
-                      </p>
-                    ) : null}
+                    <p className="mt-1 text-xs text-zinc-500">
+                      ID: {cert.credentialId}
+                    </p>
                   </div>
-
-                  <div className="mt-3 sm:mt-0">
-                    {c.href ? (
-                      <a
-                        href={c.href}
-                        className="inline-flex h-10 items-center justify-center rounded-full border border-zinc-700 px-4 text-sm font-medium text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
-                        onClick={(e) => c.href === "#" && e.preventDefault()}
-                      >
-                        View →
-                      </a>
-                    ) : (
-                      <span className="text-sm text-zinc-500">
-                        Link not added
-                      </span>
-                    )}
-                  </div>
+                  <a
+                    href={cert.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-9 w-fit items-center justify-center rounded-full border border-zinc-700 px-4 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
+                  >
+                    View Certificate →
+                  </a>
                 </div>
               </article>
             ))}
           </div>
-
-          <p className="mt-6 text-sm text-zinc-500">
-            Tip: If you have PDF certificates, you can link to them in{" "}
-            <span className="font-medium text-zinc-400">public/</span> or to a verification
-            URL (Coursera, Credly, etc.).
-          </p>
         </div>
       </div>
     </section>
