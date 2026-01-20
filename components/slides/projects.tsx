@@ -1,7 +1,7 @@
 // components/slides/projects.tsx
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 type Project = {
@@ -24,28 +24,7 @@ const PROJECTS: Project[] = [
     name: "IRis",
     description: "A Digital Circuit Simulator AI-powered desktop app built with C#",
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
-    tech: ["React", "Node.js", "PostgreSQL"],
-    href: "#",
-  },
-  {
-    name: "AI Dashboard",
-    description: "Analytics dashboard with AI-powered insights and visualizations.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    tech: ["TypeScript", "Python", "TensorFlow"],
-    href: "#",
-  },
-  {
-    name: "Mobile Fitness App",
-    description: "Cross-platform fitness tracker with personalized workout plans.",
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&h=600&fit=crop",
-    tech: ["React Native", "Firebase", "REST API"],
-    href: "#",
-  },
-  {
-    name: "Cloud Storage Solution",
-    description: "Secure file storage and sharing platform with encryption.",
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop",
-    tech: ["AWS", "Node.js", "MongoDB"],
+    tech: ["C#", "WPF", "AI"],
     href: "#",
   },
 ];
@@ -59,50 +38,7 @@ function Tag({ children }: { children: React.ReactNode }) {
 }
 
 export default function ProjectsSlide() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    let animationFrameId: number;
-    let scrollAmount = 0;
-    const scrollSpeed = 0.5; // pixels per frame
-
-    const animate = () => {
-      if (!scrollContainer) return;
-      
-      scrollAmount += scrollSpeed;
-      const maxScroll = scrollContainer.scrollWidth / 2;
-
-      if (scrollAmount >= maxScroll) {
-        scrollAmount = 0;
-      }
-
-      scrollContainer.scrollLeft = scrollAmount;
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animationFrameId = requestAnimationFrame(animate);
-
-    // Pause on hover
-    const handleMouseEnter = () => cancelAnimationFrame(animationFrameId);
-    const handleMouseLeave = () => {
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    scrollContainer.addEventListener("mouseenter", handleMouseEnter);
-    scrollContainer.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      scrollContainer.removeEventListener("mouseenter", handleMouseEnter);
-      scrollContainer.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
-  // Duplicate projects for infinite scroll effect
-  const duplicatedProjects = [...PROJECTS, ...PROJECTS];
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
@@ -117,78 +53,97 @@ export default function ProjectsSlide() {
         </div>
 
         <div
-          ref={scrollRef}
-          className="flex -space-x-32 overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-6 justify-center [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           style={{ perspective: "1500px" }}
         >
-          {duplicatedProjects.map((project, index) => (
+          {PROJECTS.map((project, index) => (
             <article
               key={`${project.name}-${index}`}
-              className="group relative shrink-0 w-[400px] transition-all duration-700 hover:z-10 hover:scale-110 hover:rotate-0 hover:-translate-y-4"
+              className="relative shrink-0 w-96 cursor-pointer -ml-12 first:ml-0"
               style={{
                 transformStyle: "preserve-3d",
-                transform: "rotateY(-15deg) rotateX(5deg)",
               }}
+              onClick={() => setSelectedProject(project)}
             >
-              {/* 3D Plate Base - creates thickness */}
-              <div className="relative" style={{ transformStyle: "preserve-3d" }}>
-                {/* Plate depth/thickness layers */}
+              {/* Glassy card without bevel */}
+              <div 
+                className="group relative transition-all duration-700 hover:scale-110 hover:rotate-0 hover:-translate-y-4 hover:z-10" 
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  transform: "rotateY(-15deg) rotateX(5deg)",
+                }}
+              >
+                {/* Main glassy surface */}
                 <div
-                  className="absolute inset-0 rounded-2xl bg-zinc-300 dark:bg-zinc-700 blur-sm"
-                  style={{ transform: "translateZ(-10px)" }}
-                />
-                <div
-                  className="absolute inset-0 rounded-2xl bg-zinc-200 dark:bg-zinc-800"
-                  style={{ transform: "translateZ(-5px)" }}
-                />
-                
-                {/* Main plate surface */}
-                <div
-                  className="relative rounded-2xl bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-100 dark:from-zinc-800 dark:via-zinc-850 dark:to-zinc-900 p-3 shadow-2xl"
+                  className="relative rounded-2xl bg-white/20 dark:bg-zinc-900/20 backdrop-blur-xl border border-white/30 dark:border-zinc-700/30 p-8 shadow-2xl"
                   style={{
-                    transform: "translateZ(0px)",
-                    boxShadow:
-                      "0 30px 60px -15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
+                    boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.4)",
                   }}
                 >
-                  {/* Image elevated on plate */}
+                  {/* Content on the glass card */}
                   <div
-                    className="relative aspect-[4/3] overflow-hidden rounded-xl bg-zinc-900 dark:bg-zinc-950"
-                    style={{
-                      transform: "translateZ(25px)",
-                      boxShadow: "0 15px 35px -10px rgba(0, 0, 0, 0.5)",
-                    }}
+                    className="relative aspect-4/3 flex flex-col justify-center items-center text-center"
                   >
-                    <Image
-                      src={project.image}
-                      alt={project.name}
-                      fill
-                      className="object-cover transition duration-700 group-hover:scale-110"
-                      unoptimized
-                    />
+                    <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-4">
+                      {project.name}
+                    </h3>
+                    <p className="text-sm text-zinc-700 dark:text-zinc-300 mb-6 px-4">
+                      {project.description}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {project.tech.map((tech) => (
+                        <Tag key={tech}>{tech}</Tag>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 text-xs text-zinc-500 dark:text-zinc-400">
+                      Click to view preview
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Description below the plate */}
-              <div className="mt-8 px-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-                  {project.name}
-                </h3>
-                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2">
-                  {project.description}
-                </p>
-
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {project.tech.map((tech) => (
-                    <Tag key={tech}>{tech}</Tag>
-                  ))}
                 </div>
               </div>
             </article>
           ))}
         </div>
       </div>
+
+      {/* Image Preview Modal */}
+      {selectedProject && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div 
+            className="relative max-w-4xl max-h-[80vh] w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="absolute -top-12 right-0 text-white hover:text-zinc-300 transition"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            <div className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src={selectedProject.image}
+                alt={selectedProject.name}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+            
+            <div className="mt-4 text-center">
+              <h3 className="text-xl font-semibold text-white">{selectedProject.name}</h3>
+              <p className="mt-2 text-sm text-zinc-300">{selectedProject.description}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
