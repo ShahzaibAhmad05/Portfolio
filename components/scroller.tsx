@@ -10,6 +10,7 @@ export default function SlideScroller({
   return (
     <div
       ref={scrollerRef}
+      data-scroller
       className="h-screen w-screen overflow-x-auto overflow-y-hidden snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     >
       <div className="flex h-full w-full">{children}</div>
