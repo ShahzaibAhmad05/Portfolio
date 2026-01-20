@@ -73,7 +73,7 @@ export default function Home() {
     const width = scroller.clientWidth || 1;
     const targetScroll = i * width;
 
-    smoothScrollTo(scroller, targetScroll, 800);
+    smoothScrollTo(scroller, targetScroll, 1200);
   };
 
   // keep active dot in sync with scroll position and track scroll progress

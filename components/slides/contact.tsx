@@ -6,10 +6,10 @@ export default function ContactSlide() {
     <section className="relative h-full w-full flex-none snap-start overflow-hidden">
       <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center px-6 sm:px-10">
         <div className="max-w-2xl">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl text-zinc-50">
+          <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-50">
             Let's Connect
           </h2>
-          <p className="mt-2 text-zinc-400">
+          <p className="mt-4 text-lg sm:text-md text-zinc-500">
             Have a project in mind or just want to chat? Feel free to reach out!
           </p>
 

@@ -142,17 +142,17 @@ export default function CertificatesSlide() {
                     <p className="mt-1.5 text-sm text-zinc-400">
                       {cert.issuer} · {cert.date}
                     </p>
-                    <p className="mt-1 text-xs text-zinc-500">
-                      ID: {cert.credentialId}
-                    </p>
                   </div>
                   <a
                     href={cert.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-9 w-fit items-center justify-center rounded-full border border-zinc-700 px-4 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
+                    className="inline-flex h-9 w-fit items-center justify-center gap-1.5 rounded-full border border-zinc-700 px-4 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
                   >
-                    View Certificate →
+                    View Certificate
+                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
                   </a>
                 </div>
               </article>
