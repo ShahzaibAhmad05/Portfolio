@@ -120,7 +120,7 @@ export default function IntroSlide({
                   alert("OK ;)");
                 }}
               >
-                I'm here to stalk
+                I'm here to Stalk
               </a>
               <button
                 type="button"
