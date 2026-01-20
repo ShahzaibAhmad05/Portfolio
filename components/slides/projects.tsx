@@ -89,31 +89,34 @@ export default function ProjectsSlide() {
                   style={{ 
                     transformStyle: "preserve-3d",
                     transform: isActive 
-                      ? "rotateY(0deg) rotateX(0deg) translateY(-1rem) scale(1.05)"
+                      ? "rotateY(0deg) rotateX(0deg) translateY(-1.5rem)"
                       : isHovered
                         ? "rotateY(0deg) rotateX(0deg) translateY(-0.5rem)"
                         : "rotateY(-15deg) rotateX(5deg)",
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
                   }}
                 >
                   {/* Main glassy surface */}
                   <div
-                    className="relative rounded-2xl bg-zinc-800/50 backdrop-blur-xl border border-zinc-700/60 p-8 shadow-2xl overflow-hidden transition-all duration-500"
+                    className="relative rounded-2xl bg-zinc-600/50 backdrop-blur-xl border border-zinc-500/60 p-8 shadow-2xl overflow-hidden"
                     style={{
                       boxShadow: isActive
                         ? "0 40px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12) inset"
                         : "0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08) inset",
-                      height: shouldShowImage ? '440px' : '360px',
+                      height: '450px',
                     }}
                   >
                     {/* Content on the glass card */}
                     <div
-                      className="relative flex flex-col items-center text-center transition-all duration-500"
+                      className="relative flex flex-col justify-between items-center text-center h-full"
                     >
                       {/* Image Preview at Top */}
                       <div 
-                        className="w-full overflow-hidden rounded-lg mb-4 transition-all duration-500"
+                        className="w-full overflow-hidden rounded-lg transition-all duration-500"
                         style={{
-                          height: shouldShowImage ? '160px' : '0px',
+                          height: shouldShowImage ? '140px' : '0px',
+                          marginBottom: shouldShowImage ? '16px' : '0px',
                           opacity: shouldShowImage ? 1 : 0,
                         }}
                       >
@@ -130,25 +133,21 @@ export default function ProjectsSlide() {
                         )}
                       </div>
 
-                      <div className="flex flex-col justify-between items-center">
-                        <div className="flex-1 flex flex-col justify-center">
-                          <h3 className="text-2xl font-bold text-zinc-50 mb-4">
-                            {project.name}
-                          </h3>
-                          <p className="text-sm text-zinc-300 mb-6 px-4 line-clamp-3">
-                            {project.description}
-                          </p>
-                        </div>
-                        
-                        <div className="flex flex-wrap gap-2 justify-center mb-4">
-                          {project.tech.map((tech) => (
-                            <Tag key={tech}>{tech}</Tag>
-                          ))}
-                        </div>
-
-                        <div className="text-xs uppercase tracking-wider text-zinc-500 pb-2">
-                          Click for preview
-                        </div>
+                      {/* Title and Description - Top */}
+                      <div className="flex-1 flex flex-col justify-start transition-all duration-500">
+                        <h3 className="text-2xl font-bold text-zinc-50 mb-4">
+                          {project.name}
+                        </h3>
+                        <p className="text-sm text-zinc-300 mb-6 px-4">
+                          {project.description}
+                        </p>
+                      </div>
+                      
+                      {/* Tech Stack Tags - Bottom */}
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {project.tech.map((tech) => (
+                          <Tag key={tech}>{tech}</Tag>
+                        ))}
                       </div>
                     </div>
                   </div>
