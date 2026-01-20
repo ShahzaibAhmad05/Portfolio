@@ -115,7 +115,10 @@ export default function IntroSlide({
               <a
                 href="#"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-700 px-6 text-sm font-medium tracking-wide text-zinc-300 transition hover:bg-zinc-800/50 hover:border-zinc-600"
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert("OK ;)");
+                }}
               >
                 I'm here to stalk
               </a>
