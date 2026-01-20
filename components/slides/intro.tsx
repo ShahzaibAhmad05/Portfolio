@@ -134,7 +134,7 @@ export default function IntroSlide({
         </div>
       </div>
       
-      <Particles />
+      <Particles theme="amber" />
       {showScrollIndicator && <ScrollIndicator />}
     </section>
   );

@@ -162,7 +162,7 @@ export default function CertificatesSlide() {
           </div>
         </div>
       </div>
-      <Particles />
+      <Particles theme="violet" />
     </section>
   );
 }

@@ -14,7 +14,11 @@ interface Particle {
   pulsePhase: number;
 }
 
-export default function Particles() {
+interface ParticlesProps {
+  theme?: 'amber' | 'teal' | 'violet';
+}
+
+export default function Particles({ theme = 'amber' }: ParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: -1000, y: -1000 });
@@ -77,6 +81,35 @@ export default function Particles() {
       mouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
+    // Color themes
+    const getThemeColors = () => {
+      switch (theme) {
+        case 'amber':
+          return {
+            core: (opacity: number) => `rgba(255, 245, 230, ${opacity})`,
+            glow1: (opacity: number) => `rgba(255, 220, 180, ${opacity * 0.6})`,
+            glow2: (opacity: number) => `rgba(220, 180, 140, ${opacity * 0.3})`,
+            line: (opacity: number) => `rgba(200, 170, 130, ${opacity})`,
+          };
+        case 'teal':
+          return {
+            core: (opacity: number) => `rgba(230, 255, 250, ${opacity})`,
+            glow1: (opacity: number) => `rgba(150, 230, 220, ${opacity * 0.6})`,
+            glow2: (opacity: number) => `rgba(120, 200, 190, ${opacity * 0.3})`,
+            line: (opacity: number) => `rgba(130, 180, 175, ${opacity})`,
+          };
+        case 'violet':
+          return {
+            core: (opacity: number) => `rgba(245, 240, 255, ${opacity})`,
+            glow1: (opacity: number) => `rgba(200, 180, 230, ${opacity * 0.6})`,
+            glow2: (opacity: number) => `rgba(170, 150, 200, ${opacity * 0.3})`,
+            line: (opacity: number) => `rgba(160, 140, 180, ${opacity})`,
+          };
+      }
+    };
+
+    const colors = getThemeColors();
+
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       timeRef.current += 0.016;
@@ -99,7 +132,7 @@ export default function Particles() {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(161, 161, 170, ${lineOpacity})`;
+            ctx.strokeStyle = colors.line(lineOpacity);
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -143,7 +176,7 @@ export default function Particles() {
         // Bright star core
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${finalOpacity})`;
+        ctx.fillStyle = colors.core(finalOpacity);
         ctx.fill();
         
         // Star glow
@@ -151,8 +184,8 @@ export default function Particles() {
           particle.x, particle.y, 0,
           particle.x, particle.y, particle.size * 4
         );
-        gradient.addColorStop(0, `rgba(200, 220, 255, ${finalOpacity * 0.6})`);
-        gradient.addColorStop(0.5, `rgba(161, 161, 200, ${finalOpacity * 0.3})`);
+        gradient.addColorStop(0, colors.glow1(finalOpacity));
+        gradient.addColorStop(0.5, colors.glow2(finalOpacity));
         gradient.addColorStop(1, `rgba(161, 161, 170, 0)`);
         
         ctx.fillStyle = gradient;

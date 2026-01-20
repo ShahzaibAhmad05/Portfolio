@@ -208,7 +208,7 @@ export default function ProjectsSlide() {
           })}
         </div>
       </div>
-      <Particles />
+      <Particles theme="teal" />
     </section>
   );
 }
