@@ -1,126 +1,39 @@
-// app/page.tsx
+/**
+ * Portfolio Homepage
+ * Main page with horizontal slide navigation and GNOME-like overview effect
+ */
+
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import SlideDots from "@/components/dots";
-import SlideScroller from "@/components/scroller";
-import IntroSlide from "@/components/slides/intro";
-import ProjectsSlide from "@/components/slides/projects";
-import CertificatesSlide from "@/components/slides/certificates";
-import ContactSlide from "@/components/slides/contact";
-import BackgroundEffects from "@/components/background-effects";
-import AppLauncher from "@/components/app-launcher";
-import { useVerticalScroll } from "@/hooks/use-vertical-scroll";
+import { useMemo, useState } from "react";
+import { SLIDES } from "@/lib/constants";
+import { useVerticalScroll, useSlideScroller } from "@/lib/hooks";
 
-export type Slide = { id: string; label: string };
+// UI Components
+import SlideDots from "@/ui/components/slide-dots";
+import SlideScroller from "@/ui/components/slide-scroller";
+import BackgroundEffects from "@/ui/effects/background-effects";
 
-export const SLIDES: Slide[] = [
-  { id: "intro", label: "Intro" },
-  { id: "projects", label: "Projects" },
-  { id: "certificates", label: "Certificates" },
-  { id: "contact", label: "Contact" },
-];
-
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
+// Feature Components
+import IntroSlide from "@/features/intro/intro-slide";
+import ProjectsSlide from "@/features/projects/projects-slide";
+import CertificatesSlide from "@/features/certificates/certificates-slide";
+import ContactSlide from "@/features/contact/contact-slide";
+import AppLauncher from "@/features/app-launcher/app-launcher";
 
 export default function Home() {
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   
   const slideCount = SLIDES.length;
-  const scrollAnimationRef = useRef<number | null>(null);
   
   // GNOME-like overview effect (scroll DOWN to activate)
-  const { overviewActive, scaleAmount, dismiss } = useVerticalScroll();
+  const { overviewActive, scaleAmount, dismiss, activate } = useVerticalScroll();
 
-  const smoothScrollTo = (element: HTMLElement, target: number, duration: number) => {
-    const start = element.scrollLeft;
-    const distance = target - start;
-    const startTime = performance.now();
-
-    // Temporarily disable snap scrolling during animation
-    element.style.scrollSnapType = 'none';
-
-    const easeOutExpo = (t: number): number => {
-      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-    };
-
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeOutExpo(progress);
-      
-      element.scrollLeft = start + distance * easedProgress;
-
-      if (progress < 1) {
-        scrollAnimationRef.current = requestAnimationFrame(animate);
-      } else {
-        scrollAnimationRef.current = null;
-        // Re-enable snap scrolling after animation completes
-        element.style.scrollSnapType = '';
-      }
-    };
-
-    if (scrollAnimationRef.current !== null) {
-      cancelAnimationFrame(scrollAnimationRef.current);
-    }
-    
-    scrollAnimationRef.current = requestAnimationFrame(animate);
-  };
-
-  const scrollToIndex = (index: number) => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const i = clamp(index, 0, slideCount - 1);
-    const width = scroller.clientWidth || 1;
-    const targetScroll = i * width;
-
-    smoothScrollTo(scroller, targetScroll, 1200);
-  };
-
-  // keep active dot in sync with scroll position and track scroll progress
-  useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const onScroll = () => {
-      const width = scroller.clientWidth || 1;
-      const i = Math.round(scroller.scrollLeft / width);
-      setActiveIndex(clamp(i, 0, slideCount - 1));
-      
-      // Calculate scroll progress (0 to 1)
-      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
-      const progress = maxScroll > 0 ? scroller.scrollLeft / maxScroll : 0;
-      setScrollProgress(progress);
-    };
-
-    onScroll();
-    scroller.addEventListener("scroll", onScroll, { passive: true });
-    return () => scroller.removeEventListener("scroll", onScroll);
-  }, [slideCount]);
-
-  // Clean up scroll animation on unmount
-  useEffect(() => {
-    return () => {
-      if (scrollAnimationRef.current !== null) {
-        cancelAnimationFrame(scrollAnimationRef.current);
-      }
-    };
-  }, []);
-
-  // keyboard support
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") scrollToIndex(activeIndex + 1);
-      if (e.key === "ArrowLeft") scrollToIndex(activeIndex - 1);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex]);
+  // Horizontal slide scrolling
+  const { scrollerRef, activeIndex, scrollToIndex } = useSlideScroller({
+    slideCount,
+    onScrollProgressChange: setScrollProgress,
+  });
 
   const dots = useMemo(
     () => (
@@ -130,7 +43,7 @@ export default function Home() {
         onDotClick={scrollToIndex}
       />
     ),
-    [activeIndex]
+    [activeIndex, scrollToIndex]
   );
 
   // Hide smoke on contact slide (index 3)
@@ -177,6 +90,7 @@ export default function Home() {
             <IntroSlide 
               onNext={() => scrollToIndex(activeIndex + 1)}
               showScrollIndicator={activeIndex === 0}
+              onActivateTools={activate}
             />
 
             <ProjectsSlide />
@@ -187,7 +101,7 @@ export default function Home() {
       </div>
 
       {/* GNOME-like app launcher dock */}
-      <AppLauncher isActive={overviewActive} />
+      <AppLauncher isActive={overviewActive} onClose={dismiss} />
     </div>
   );
 }

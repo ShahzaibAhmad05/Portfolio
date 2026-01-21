@@ -1,0 +1,92 @@
+/**
+ * Certificates Slide Feature
+ * Displays an infinite scrolling belt of professional certificates
+ */
+
+"use client";
+
+import Particles from "@/ui/effects/particles";
+import { CERTIFICATES } from "./data";
+
+export default function CertificatesSlide() {
+  // Duplicate the certificates array for seamless loop
+  const duplicatedCerts = [...CERTIFICATES, ...CERTIFICATES];
+
+  return (
+    <section className="relative h-full w-full flex-none snap-start overflow-hidden">
+      <style jsx>{`
+        @keyframes scroll-down {
+          0% {
+            transform: translateY(-50%);
+          }
+          100% {
+            transform: translateY(0%);
+          }
+        }
+        .animate-scroll {
+          animation: scroll-down 30s linear infinite;
+        }
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 py-12 sm:px-10">
+        {/* Left Side - Title Section */}
+        <div className="flex-1 pr-12 flex flex-col justify-center">
+          <div className="space-y-4 ml-5">
+            <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-50">
+              Certificates
+            </h2>
+            <p className="ml-2 text-lg sm:text-md text-zinc-500 max-w-md">
+              My professional credentials.
+            </p>
+          </div>
+        </div>
+
+        {/* Right Side - Moving Belt */}
+        <div className="flex-1 relative h-full overflow-hidden">
+          {/* Gradient overlays */}
+          <div className="absolute top-0 left-0 right-0 h-24 bg-linear-to-b from-zinc-950 to-transparent pointer-events-none z-10" />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t from-zinc-950 to-transparent pointer-events-none z-10" />
+          
+          {/* Scrolling certificates */}
+          <div className="animate-scroll flex flex-col gap-4 py-4">
+            {duplicatedCerts.map((cert, index) => (
+              <article
+                key={`${cert.credentialId}-${index}`}
+                className="rounded-3xl border border-zinc-700/60 bg-zinc-800/50 p-5 shadow-lg backdrop-blur-sm transition mr-15 hover:border-zinc-600/60 hover:bg-zinc-800/70"
+                style={{
+                  boxShadow: "0 4px 20px -4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08) inset"
+                }}
+              >
+                <div className="flex flex-col gap-2">
+                  <div>
+                    <h3 className="text-base font-semibold text-zinc-50 leading-tight">
+                      {cert.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-zinc-400">
+                      {cert.issuer} · {cert.date}
+                    </p>
+                  </div>
+                  <a
+                    href={cert.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300 transition self-start"
+                  >
+                    View Credential
+                    <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+      <Particles theme="violet" />
+    </section>
+  );
+}

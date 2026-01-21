@@ -1,3 +1,8 @@
+/**
+ * Custom hook for vertical scroll tracking and GNOME-like overview effect
+ * Activates when user scrolls down, providing scale and activation state
+ */
+
 "use client";
 
 import { useEffect, useState } from "react";

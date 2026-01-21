@@ -1,19 +1,25 @@
-// components/slides/intro.tsx
+/**
+ * Intro Slide Feature
+ * Main landing/introduction slide with typing animation and profile
+ */
+
 "use client";
 
 import { useState, useEffect } from "react";
-import ScrollIndicator from "@/components/scroll-indicator";
-import Particles from "@/components/particles";
+import ScrollIndicator from "@/ui/components/scroll-indicator";
+import Particles from "@/ui/effects/particles";
+
+interface IntroSlideProps {
+  onNext: () => void;
+  showScrollIndicator?: boolean;
+  onActivateTools?: () => void;
+}
 
 export default function IntroSlide({ 
   onNext, 
   showScrollIndicator = false,
   onActivateTools
-}: { 
-  onNext: () => void;
-  showScrollIndicator?: boolean;
-  onActivateTools?: () => void;
-}) {
+}: IntroSlideProps) {
   const [displayedText, setDisplayedText] = useState("");
   const fullText = "Hello Visitor!";
   const [isTypingComplete, setIsTypingComplete] = useState(false);

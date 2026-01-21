@@ -4,9 +4,10 @@ import { useState, useRef, useEffect } from 'react';
 
 interface AppLauncherProps {
   isActive: boolean;
+  onClose?: () => void;
 }
 
-export default function AppLauncher({ isActive }: AppLauncherProps) {
+export default function AppLauncher({ isActive, onClose }: AppLauncherProps) {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [commandHistory, setCommandHistory] = useState<string[]>(['Welcome to Portfolio Terminal v1.0']);
   const [currentCommand, setCurrentCommand] = useState('');
@@ -65,32 +66,83 @@ export default function AppLauncher({ isActive }: AppLauncherProps) {
               <span className="text-[10px] text-white/80 font-medium">Terminal</span>
             </button>
 
-            {/* Placeholder app icons */}
-            {[...Array(3)].map((_, i) => (
-              <button
-                key={i}
-                className="group relative flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-200"
-              >
-                {/* Icon placeholder */}
-                <div className="w-10 h-10 rounded-lg bg-linear-to-br from-blue-500 to-purple-600 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
-                  <svg 
-                    className="w-5 h-5 text-white" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" 
-                    />
-                  </svg>
-                </div>
-                {/* Label */}
-                <span className="text-[10px] text-white/80 font-medium">App {i + 1}</span>
-              </button>
-            ))}
+            {/* Calculator app */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                alert("Calculator coming soon!");
+              }}
+              className="group relative flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-200"
+            >
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
+                <svg 
+                  className="w-5 h-5 text-white" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" 
+                  />
+                </svg>
+              </div>
+              <span className="text-[10px] text-white/80 font-medium">Calculator</span>
+            </button>
+
+            {/* Notes app */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                alert("Notes coming soon!");
+              }}
+              className="group relative flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-200"
+            >
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-600 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
+                <svg 
+                  className="w-5 h-5 text-white" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" 
+                  />
+                </svg>
+              </div>
+              <span className="text-[10px] text-white/80 font-medium">Notes</span>
+            </button>
+
+            {/* Close button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose?.();
+              }}
+              className="group relative flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-200"
+            >
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-500 to-red-700 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
+                <svg 
+                  className="w-5 h-5 text-white" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M6 18L18 6M6 6l12 12" 
+                  />
+                </svg>
+              </div>
+              <span className="text-[10px] text-white/80 font-medium">Close</span>
+            </button>
           </div>
         </div>
       </div>
