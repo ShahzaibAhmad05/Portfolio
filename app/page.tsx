@@ -33,8 +33,8 @@ export default function Home() {
   const slideCount = SLIDES.length;
   const scrollAnimationRef = useRef<number | null>(null);
   
-  // GNOME-like overview effect (scroll UP to activate)
-  const { overviewActive, scaleAmount, translateY } = useVerticalScroll();
+  // GNOME-like overview effect (scroll DOWN to activate)
+  const { overviewActive, scaleAmount, translateY, dismiss } = useVerticalScroll();
 
   const smoothScrollTo = (element: HTMLElement, target: number, duration: number) => {
     const start = element.scrollLeft;
@@ -146,10 +146,11 @@ export default function Home() {
 
       {/* Main content container with GNOME-like transform */}
       <div 
-        className="transition-all duration-300 ease-out origin-top"
+        className="transition-all duration-300 ease-out origin-top cursor-pointer"
         style={{
           transform: `scale(${scaleAmount}) translateY(${translateY}px)`,
         }}
+        onClick={overviewActive ? dismiss : undefined}
       >
         {/* Top dots */}
         <div className="pointer-events-none fixed inset-x-0 top-6 z-10 flex items-center justify-center">

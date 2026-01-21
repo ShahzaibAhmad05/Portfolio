@@ -18,18 +18,18 @@ export default function AppLauncher({ isActive }: AppLauncherProps) {
       <div className="absolute inset-0 bg-zinc-800/90 dark:bg-zinc-900/90 backdrop-blur-xl" />
       
       {/* App icons container */}
-      <div className="relative px-8 py-6">
-        <div className="flex items-center justify-center gap-4 max-w-4xl mx-auto">
+      <div className="relative px-6 py-4">
+        <div className="flex items-center justify-center gap-3 max-w-3xl mx-auto">
           {/* Placeholder app icons */}
           {[...Array(6)].map((_, i) => (
             <button
               key={i}
-              className="group relative flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-white/10 transition-colors duration-200"
+              className="group relative flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
             >
               {/* Icon placeholder */}
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
                 <svg 
-                  className="w-8 h-8 text-white" 
+                  className="w-6 h-6 text-white" 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"

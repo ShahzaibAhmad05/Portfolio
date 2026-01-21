@@ -14,16 +14,11 @@ export function useVerticalScroll() {
       // Only respond to vertical scroll (deltaY)
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         setVerticalScroll(prev => {
-          // Negative deltaY means scrolling UP - subtract to increase the value
-          const next = prev - e.deltaY;
+          // Positive deltaY means scrolling DOWN - add to increase the value
+          const next = prev + e.deltaY;
           // Clamp between 0 and 200 (200px max scroll for full effect)
           return clamp(next, 0, 200);
         });
-        
-        // Gradually decay back to 0 when not scrolling
-        setTimeout(() => {
-          setVerticalScroll(prev => Math.max(0, prev - 5));
-        }, 100);
       }
     };
 
@@ -35,10 +30,15 @@ export function useVerticalScroll() {
   const scaleAmount = 1 - (Math.min(verticalScroll, 200) / 200) * 0.15;
   const translateY = -(Math.min(verticalScroll, 200) / 200) * 80;
 
+  const dismiss = () => {
+    setVerticalScroll(0);
+  };
+
   return {
     verticalScroll,
     overviewActive,
     scaleAmount,
     translateY,
+    dismiss,
   };
 }
