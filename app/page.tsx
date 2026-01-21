@@ -149,9 +149,12 @@ export default function Home() {
         className="fixed inset-0 flex items-start justify-center transition-all duration-300 ease-out"
         style={{
           zIndex: overviewActive ? 30 : 10,
-          padding: overviewActive ? '3rem' : '0',
-          paddingTop: overviewActive ? '2rem' : '0',
-          paddingBottom: overviewActive ? '8rem' : '0',
+          paddingTop: overviewActive ? '0.75rem' : '0',
+          paddingBottom: overviewActive ? '7rem' : '0',
+          margin: overviewActive ? '-1.5rem' : '0',
+          marginLeft: overviewActive ? '-2rem' : '0',
+          marginRight: overviewActive ? '-2rem' : '0',
+          marginBottom: overviewActive ? '-3rem' : '0',
         }}
         onClick={overviewActive ? dismiss : undefined}
       >
