@@ -34,7 +34,7 @@ export default function Home() {
   const scrollAnimationRef = useRef<number | null>(null);
   
   // GNOME-like overview effect (scroll DOWN to activate)
-  const { overviewActive, scaleAmount, translateY, dismiss } = useVerticalScroll();
+  const { overviewActive, scaleAmount, dismiss } = useVerticalScroll();
 
   const smoothScrollTo = (element: HTMLElement, target: number, duration: number) => {
     const start = element.scrollLeft;
@@ -146,29 +146,41 @@ export default function Home() {
 
       {/* Main content container with GNOME-like transform */}
       <div 
-        className="transition-all duration-300 ease-out origin-top cursor-pointer"
+        className="fixed inset-0 flex items-start justify-center transition-all duration-300 ease-out"
         style={{
-          transform: `scale(${scaleAmount}) translateY(${translateY}px)`,
+          zIndex: overviewActive ? 30 : 10,
+          padding: overviewActive ? '3rem' : '0',
+          paddingTop: overviewActive ? '2rem' : '0',
+          paddingBottom: overviewActive ? '8rem' : '0',
         }}
         onClick={overviewActive ? dismiss : undefined}
       >
-        {/* Top dots */}
-        <div className="pointer-events-none fixed inset-x-0 top-6 z-10 flex items-center justify-center">
-          <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-zinc-200 bg-white/80 px-4 py-2 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/60">
-            {dots}
+        <div
+          className="w-full h-full transition-all duration-300 ease-out overflow-hidden"
+          style={{
+            transform: `scale(${scaleAmount})`,
+            borderRadius: overviewActive ? '1rem' : '0',
+            boxShadow: overviewActive ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : 'none',
+          }}
+        >
+          {/* Top dots */}
+          <div className="pointer-events-none fixed inset-x-0 top-6 z-10 flex items-center justify-center">
+            <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-zinc-200 bg-white/80 px-4 py-2 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/60">
+              {dots}
+            </div>
           </div>
+
+          <SlideScroller scrollerRef={scrollerRef}>
+            <IntroSlide 
+              onNext={() => scrollToIndex(activeIndex + 1)}
+              showScrollIndicator={activeIndex === 0}
+            />
+
+            <ProjectsSlide />
+            <CertificatesSlide />
+            <ContactSlide />
+          </SlideScroller>
         </div>
-
-        <SlideScroller scrollerRef={scrollerRef}>
-          <IntroSlide 
-            onNext={() => scrollToIndex(activeIndex + 1)}
-            showScrollIndicator={activeIndex === 0}
-          />
-
-          <ProjectsSlide />
-          <CertificatesSlide />
-          <ContactSlide />
-        </SlideScroller>
       </div>
 
       {/* GNOME-like app launcher dock */}

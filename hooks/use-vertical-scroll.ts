@@ -28,7 +28,6 @@ export function useVerticalScroll() {
 
   const overviewActive = verticalScroll > 20;
   const scaleAmount = 1 - (Math.min(verticalScroll, 200) / 200) * 0.15;
-  const translateY = -(Math.min(verticalScroll, 200) / 200) * 80;
 
   const dismiss = () => {
     setVerticalScroll(0);
@@ -38,7 +37,6 @@ export function useVerticalScroll() {
     verticalScroll,
     overviewActive,
     scaleAmount,
-    translateY,
     dismiss,
   };
 }
