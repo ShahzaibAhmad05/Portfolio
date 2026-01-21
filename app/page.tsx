@@ -8,6 +8,9 @@ import IntroSlide from "@/components/slides/intro";
 import ProjectsSlide from "@/components/slides/projects";
 import CertificatesSlide from "@/components/slides/certificates";
 import ContactSlide from "@/components/slides/contact";
+import BackgroundEffects from "@/components/background-effects";
+import AppLauncher from "@/components/app-launcher";
+import { useVerticalScroll } from "@/hooks/use-vertical-scroll";
 
 export type Slide = { id: string; label: string };
 
@@ -26,9 +29,12 @@ export default function Home() {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
-
+  
   const slideCount = SLIDES.length;
   const scrollAnimationRef = useRef<number | null>(null);
+  
+  // GNOME-like overview effect (scroll UP to activate)
+  const { overviewActive, scaleAmount, translateY } = useVerticalScroll();
 
   const smoothScrollTo = (element: HTMLElement, target: number, duration: number) => {
     const start = element.scrollLeft;
@@ -131,102 +137,41 @@ export default function Home() {
   const isContactSlide = activeIndex === 3;
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
+    <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50 overflow-hidden">
       {/* Animated fog effect - hidden on contact slide */}
+      <BackgroundEffects 
+        scrollProgress={scrollProgress}
+        isVisible={!isContactSlide}
+      />
+
+      {/* Main content container with GNOME-like transform */}
       <div 
-        className="fixed inset-0 pointer-events-none z-0 overflow-hidden transition-opacity duration-700"
-        style={{ opacity: isContactSlide ? 0 : 1 }}
+        className="transition-all duration-300 ease-out origin-top"
+        style={{
+          transform: `scale(${scaleAmount}) translateY(${translateY}px)`,
+        }}
       >
-        {/* Deep Navy - Background Layer */}
-        <div 
-          className="absolute w-150 h-150 opacity-40"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.5) 0%, rgba(29, 78, 216, 0.3) 30%, transparent 65%)',
-            filter: 'blur(120px)',
-            left: `${-200 + scrollProgress * 50}px`,
-            top: '10vh',
-            animation: 'smokeFloat1 45s ease-in-out infinite',
-          }}
-        />
-        
-        {/* Sky Blue - Bright Accent */}
-        <div 
-          className="absolute w-125 h-125 opacity-45"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.5) 0%, rgba(14, 165, 233, 0.3) 35%, transparent 70%)',
-            filter: 'blur(100px)',
-            right: `${-150 + scrollProgress * 40}px`,
-            top: '5vh',
-            animation: 'smokeFloat2 50s ease-in-out infinite',
-          }}
-        />
-        
-        {/* Royal Blue - Mid Layer */}
-        <div 
-          className="absolute w-137.5 h-137.5 opacity-38"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.45) 0%, rgba(37, 99, 235, 0.25) 35%, transparent 68%)',
-            filter: 'blur(110px)',
-            left: `${30 + scrollProgress * 35}vw`,
-            bottom: '15vh',
-            animation: 'smokeFloat3 55s ease-in-out infinite',
-          }}
-        />
-        
-        {/* Cyan Blue - Corner Accent */}
-        <div 
-          className="absolute w-112.5 h-112.5 opacity-42"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(125, 211, 252, 0.48) 0%, rgba(56, 189, 248, 0.28) 38%, transparent 70%)',
-            filter: 'blur(95px)',
-            left: `${-180 + scrollProgress * 45}px`,
-            bottom: '8vh',
-            animation: 'smokeFloat4 48s ease-in-out infinite',
-          }}
-        />
-        
-        {/* Azure - Floating Center */}
-        <div 
-          className="absolute w-120 h-120 opacity-35"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(96, 165, 250, 0.4) 0%, rgba(59, 130, 246, 0.22) 40%, transparent 68%)',
-            filter: 'blur(105px)',
-            left: `${40 + scrollProgress * 30}vw`,
-            top: '25vh',
-            animation: 'smokeFloat5 52s ease-in-out infinite',
-          }}
-        />
-        
-        {/* Indigo - Deep Accent */}
-        <div 
-          className="absolute w-130 h-130 opacity-36"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(67, 56, 202, 0.42) 0%, rgba(99, 102, 241, 0.24) 36%, transparent 70%)',
-            filter: 'blur(115px)',
-            right: `${-160 + scrollProgress * 38}px`,
-            bottom: '12vh',
-            animation: 'smokeFloat6 58s ease-in-out infinite',
-          }}
-        />
-      </div>
-
-      {/* Top dots */}
-      <div className="pointer-events-none fixed inset-x-0 top-6 z-10 flex items-center justify-center">
-        <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-zinc-200 bg-white/80 px-4 py-2 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/60">
-          {dots}
+        {/* Top dots */}
+        <div className="pointer-events-none fixed inset-x-0 top-6 z-10 flex items-center justify-center">
+          <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-zinc-200 bg-white/80 px-4 py-2 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/60">
+            {dots}
+          </div>
         </div>
+
+        <SlideScroller scrollerRef={scrollerRef}>
+          <IntroSlide 
+            onNext={() => scrollToIndex(activeIndex + 1)}
+            showScrollIndicator={activeIndex === 0}
+          />
+
+          <ProjectsSlide />
+          <CertificatesSlide />
+          <ContactSlide />
+        </SlideScroller>
       </div>
 
-      <SlideScroller scrollerRef={scrollerRef}>
-        <IntroSlide 
-          onNext={() => scrollToIndex(activeIndex + 1)}
-          showScrollIndicator={activeIndex === 0}
-        />
-
-        <ProjectsSlide />
-        <CertificatesSlide />
-        <ContactSlide />
-      </SlideScroller>
+      {/* GNOME-like app launcher dock */}
+      <AppLauncher isActive={overviewActive} />
     </div>
   );
 }
