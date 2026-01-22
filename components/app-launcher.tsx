@@ -74,7 +74,7 @@ export default function AppLauncher({ isActive, onClose }: AppLauncherProps) {
               }}
               className="group relative flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-200"
             >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-linear-to-br from-blue-500 to-blue-700 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
                 <svg 
                   className="w-5 h-5 text-white" 
                   fill="none" 
@@ -100,7 +100,7 @@ export default function AppLauncher({ isActive, onClose }: AppLauncherProps) {
               }}
               className="group relative flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-200"
             >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-600 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-linear-to-br from-yellow-500 to-orange-600 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
                 <svg 
                   className="w-5 h-5 text-white" 
                   fill="none" 
@@ -126,7 +126,7 @@ export default function AppLauncher({ isActive, onClose }: AppLauncherProps) {
               }}
               className="group relative flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors duration-200"
             >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-500 to-red-700 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-linear-to-br from-red-500 to-red-700 shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center">
                 <svg 
                   className="w-5 h-5 text-white" 
                   fill="none" 

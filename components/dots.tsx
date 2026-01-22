@@ -1,7 +1,7 @@
 // components/dots.tsx
 "use client";
 
-import type { Slide } from "@/app/page";
+import type { Slide } from "@/lib/types";
 
 export default function SlideDots({
   slides = [],
